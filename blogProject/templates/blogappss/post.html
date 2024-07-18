@@ -1,0 +1,20 @@
+{% extends 'partials/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container mt-5 pt-5">
+                      <form action="" method="post">
+                        {%csrf_token%}
+                       {{form|crispy}}
+                        <input class="btn btn-primary" type="submit" value="POST">
+                      </form>
+            <hr>
+        </div>
+        
+
+{% endblock %}
+
+
+
+
+
+

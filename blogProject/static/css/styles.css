@@ -5,3 +5,15 @@
     height: 100vh;
 
 }
+.custom-btn-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.line-clamp {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-height: 3em; /* Adjust this value based on the line height */
+}
+

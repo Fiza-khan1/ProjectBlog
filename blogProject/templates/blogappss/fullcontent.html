@@ -11,12 +11,12 @@
   
         </div> 
         <div class="row mt-5 pt-5 offset-6 "> 
-        <a href="{%url 'post'%}" class="btn btn-success">POST A BLOG</a>
+        <a href="{%url 'post'%}" class="btn btn-primary">POST A BLOG</a>
         </div>
         {% comment %} <input type="submit" value='POST A BLOG' class="btn btn-primary btn-block"> {% endcomment %}
         <div class="col-md-10 offset-1">
             <div class="row">
-            {% for post in posts %}
+           
             <div class="col-md-4">
                 <img  class='img-thumbnail' src="{{ post.author.profile.image.url }}" alt="img">
             </div>
@@ -26,12 +26,11 @@
                     <small>{{ post.date_created }}</small>
                     <hr>
                     <a class="h3" href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
-
-                    <p class="text-justify my-3 line-clamp">{{ post.content|truncatechars:100 }}  <a href="{% url 'full' post.id %}" class="btn btn-primary btn-sm">Continue Reading</a></p>
+                    <p class="text-justify my-3 line-clamp">{{ post.content}}</p>
                 </div>
             </div>
           </div>
-            {% endfor %}
+          
             <hr>
         </div>
         </div>
@@ -47,10 +46,3 @@
 
 
 
-{%block menu%}
-
-<div class="container">
-<h2>Menu</h2>
-
-</div>
-{%endblock menu%}

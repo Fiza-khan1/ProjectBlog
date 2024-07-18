@@ -4,18 +4,26 @@ from django.contrib.auth.decorators import login_required
 from .forms import PostmodelForm,postUpdateForm,commentform
 from Blogapp.templatetags import getval
 
-def home(request):
-    posts = PostModel.objects.all()
+def post(request):
     if request.method == 'POST':
+        print('POST')
         form = PostmodelForm(request.POST)
+
         if form.is_valid():
             instance = form.save(commit=False)
             instance.author = request.user
             instance.save()
             return redirect('home')  
+        
     else:
         form = PostmodelForm()
-    return render(request, 'blogappss/index.html', {'posts': posts, 'form': form})
+        return render(request, 'blogappss/post.html', {'form': form})
+    
+    
+
+def home(request):
+    posts = PostModel.objects.all() 
+    return render(request, 'blogappss/index.html', {'posts': posts})
 
 
 @login_required
@@ -52,6 +60,11 @@ def post_detail(request, pk):
         'repdict':repdict
     }
     return render(request, 'blogappss/post_detail.html', context)
+
+
+def fullcontent(request,id):
+    post=PostModel.objects.get(id=id)
+    return render(request,'blogappss/fullcontent.html',{'post':post})
 
 # def post_detail(request, pk):
 #     post = get_object_or_404(PostModel, pk=pk)
