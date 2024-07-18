@@ -1,0 +1,33 @@
+{% extends 'partials/base.html' %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="cover">
+    <div class="container">
+        <div class="row mt-4 pt-5">
+            <div class="col-md-8 offset-md-2">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert alert-danger text-center" role="alert">
+                                    <strong>Warning!</strong> Do you really want to delete this post?
+                                </div>
+                                <hr>
+                                <form action="" method="post" class="text-center">
+                                    {% csrf_token %}
+                                    <input class="btn btn-danger btn-sm" type="submit" value="Confirm">
+                                    <a class="btn btn-secondary btn-sm ml-2" href="{% url 'post_detail' id %}">Cancel</a>
+
+
+                                </form>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

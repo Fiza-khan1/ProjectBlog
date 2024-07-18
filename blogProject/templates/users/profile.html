@@ -1,0 +1,63 @@
+{% extends 'partials/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container">
+    <div class="row mt-4 pt-5">
+        <div class="col-md-6 offset-md-3">
+            <div class="card shadow">
+                <div class="card-body">
+                    <span class="h4">Profile Page</span>
+                    <span>
+                    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal">
+                        Edit Profile
+                    </button>
+                    </span>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4 d-flex justify-content-center align-items-center">
+                            <img class="img-thumbnail rounded-circle" src="{{ user.profile.image.url }}" alt="Profile Picture" style="width: 200px; height: 200px; object-fit: cover;">
+                        </div>
+                        <div class="col-md-8">
+                            <h4>Name: {{ request.user.username }}</h4>
+                            <h4>Email: {{ request.user.email }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit profile information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="img-thumbnail" src="{{post.author.Profile.image.url }}"alt="IMAGE">
+                        </div>
+                        <div class="col-md-8">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            {{ imageform|crispy }}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

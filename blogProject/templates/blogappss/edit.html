@@ -1,0 +1,40 @@
+{% extends 'partials/base.html' %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="cover">
+    <div class="container">
+        <div class="row mt-4 pt-5">
+            <div class="col-md-8 offset-md-2">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img class='img-thumbnail' src="{{ post.author.profile.image.url }}" alt="IMG">
+
+                            </div>
+                            <div class="col-md-8">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    
+                                    <div>
+                                       <form action="" method='post'>
+                                        {% csrf_token %}
+                                        {{form|crispy}}
+                                        <input class='btn btn-primary btn-sm' type="submit" value="Save Changes">
+                                        
+                                       </form>
+                                    </div>
+                                </div>
+                                <hr>
+                                <h4></h4>
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

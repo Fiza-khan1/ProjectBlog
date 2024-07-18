@@ -1,0 +1,99 @@
+{% extends 'partials/base.html' %}
+
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% load getval %}
+
+{% block content %}
+<div class="cover">
+    <div class="container">
+        <div class="row mt-4 pt-5">
+            <div class="col-md-8 offset-md-2">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img class='img-thumbnail' src="{{ post.author.profile.image.url }}" alt="IMG">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <small>{{ post.date_created }}</small>
+                                    <div>
+                                        {% if request.user == post.author %}
+                                        <span class='btn btn-primary btn-sm mr-2'>
+                                            <a class="text-white" href="{% url 'edit' post.id %}">EDIT</a>
+                                        </span>
+                                        <span class='btn btn-success btn-sm'>
+                                            <a class="text-white" href="{% url 'delete' post.id %}">DELETE</a>
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <hr>
+                                <h4>{{ post.title }}</h4>
+                                <p>{{ post.content }}</p>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <p>
+                                <a data-toggle="collapse" href="#commentsSection" role="button" aria-expanded="false" aria-controls="commentsSection">
+                                    comments: {{ post.comment_count }}
+                                </a>
+                            </p>
+                            <form action="{% url 'post_detail' post.id %}" method='post'>
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <input class='btn btn-primary btn-sm' type="submit" value='POST'>
+                            </form>
+                        </div>
+
+                        <div class="collapse" id="commentsSection">
+                            <div style='height:250px; overflow-y:scroll' class="card card-body">
+                                <div>
+                                    {% for comment in comments %}
+                                    <div class="media mb-3">
+                                        <img class="rounded-circle mr-2" src="{{ comment.user.profile.image.url }}" alt="" style="width: 40px; height: 40px;">
+                                        <div class="media-body ml-2">
+                                            <h6 class="mt-0"><a class='text-dark' href="">{{ comment.user.username }}</a> <small>{{ comment.created_on|naturaltime }}</small></h6>
+                                            <p>{{ comment.content }}</p>
+                                            <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#replyCollapse{{ comment.id }}" aria-expanded="false" aria-controls="replyCollapse{{ comment.id }}">
+                                                REPLY
+                                            </button>
+                                            <div class="collapse my-2" id="replyCollapse{{ comment.id }}">
+                                                <div class="card card-body ml-4">
+                                                    <form action="{% url 'post_detail' post.id %}" method="post">
+                                                        {% csrf_token %}
+                                                        <textarea class="form-control mb-2" name="content" rows="2" placeholder="Write your reply here..."></textarea>
+                                                        <button class="btn btn-dark btn-sm ml-2" type="submit">Submit</button>
+                                                        <input type="hidden" name='PC_sno' value='{{ comment.id }}'>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                            <div class="ml-4 mt-2">
+                                                {% for reply in repdict|get_val:comment.id %}
+                                                <div class="media mb-3">
+                                                    <img class="rounded-circle mr-2" src="{{ reply.user.profile.image.url }}" alt="" style="width: 40px; height: 40px;">
+                                                    <div class="media-body ml-2">
+                                                        <h6 class="mt-0"><a class='text-dark' href="">{{ reply.user.username }}</a> <small>{{ reply.created_on|naturaltime }}</small></h6>
+                                                        <p>{{ reply.content }}</p>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                           
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

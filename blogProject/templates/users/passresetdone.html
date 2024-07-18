@@ -1,0 +1,32 @@
+{% extends 'partials/base.html' %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="cover">
+    <div class="container">
+        <div class="row mt-4 pt-5">
+            <div class="col-md-6 offset-md-3">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            Code is sent to ur email
+                        </div>
+                        <h4>RESET PASSWORD</h4>
+                        <form action="{% url 'password_reset_confirm' %}" method="post">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                           
+                        </form>
+                        <div class="text-center my-2">
+                          <input class='btn btn-primary btn-sm' type="submit" value='Reset My password'>
+                        </div>
+                        <hr>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
