@@ -3,6 +3,7 @@ from .models import PostModel,comments
 from django.contrib.auth.decorators import login_required
 from .forms import PostmodelForm,postUpdateForm,commentform
 from Blogapp.templatetags import getval
+from django.core.paginator import Paginator
 
 def post(request):
     if request.method == 'POST':
@@ -18,12 +19,15 @@ def post(request):
     else:
         form = PostmodelForm()
         return render(request, 'blogappss/post.html', {'form': form})
-    
-    
+
 
 def home(request):
-    posts = PostModel.objects.all() 
-    return render(request, 'blogappss/index.html', {'posts': posts})
+    posts = PostModel.objects.all().order_by('id')
+    paginator = Paginator(posts,3,orphans=1)
+    page_no=request.GET.get('page')
+    page_obj=paginator.get_page(page_no)
+    print(page_obj)
+    return render(request, 'blogappss/index.html', {'posts': page_obj})
 
 
 @login_required
